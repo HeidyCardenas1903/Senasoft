@@ -5,7 +5,7 @@ root=Tk()
 root.title("Heidy")
 
 root.resizable(1,1)
-root.iconbitmap("C:\\Users\\hvcar\\OneDrive\\Documentos\\PRACTICAS\\SENASOFT\\Curso Phyton\\Ejercicios practicos\\dia 14\\nina.ico")
+root.iconbitmap("C:\\Users\\hvcar\\OneDrive\\Documentos\\PRACTICAS\\SENASOFT\\Curso Phyton\\Ejercicios practicos\\dia 12\\nina.ico")
 
 miFrame = Frame(root)
 miFrame.pack(fill="y", expand=1)
