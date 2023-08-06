@@ -9,4 +9,3 @@ root.iconbitmap("nina.ico")
 
 
 root.mainloop()
-
