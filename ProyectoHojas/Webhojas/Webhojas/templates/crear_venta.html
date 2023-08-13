@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creacion de venta || Hojas</title>
+</head>
+<body>
+    <h1>Crear Venta</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="nombre_cliente">Nombre del cliente:</label>
+        <input type="text" name="nombre_cliente"><br>
+        <label for="tipo_cliente">Tipo de cliente <br> 1 2 3 4:</label>
+        <input type="number" name="tipo_cliente"><br>
+        <label for="cantidad_hojas">Cantidad de hojas:</label>
+        <input type="number" name="cantidad_hojas"><br>
+        <label for="precio_por_hoja">Precio por hoja:</label>
+        <input type="number" step="0.01" name="precio_por_hoja"><br>
+        <button type="submit">ENVIAR 📄</button>
+    </form>
+</body>
+</html>
