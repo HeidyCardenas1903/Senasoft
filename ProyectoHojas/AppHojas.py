@@ -4,10 +4,10 @@ import tkinter as tk
 
 # # Creacion de la base de datos / Hojas - Heidy
 # #Conexion :)
-# conexion = connect("ventas.db")
-# cursor = conexion.cursor()
+conexion = connect("ventas.db")
+cursor = conexion.cursor()
 
-# #Tabla de ventas
+#Tabla de ventas
 # cursor.execute('''
 # CREATE TABLE ventas (
 #   nombre text,
@@ -38,16 +38,37 @@ def imprimir_recibo(nombre, subtotal, neto_por_pagar):
     print("Neto por pagar:", neto_por_pagar)
 
 #App
-window = tk.Tk()
-window.resizable(1,1)
-window.title("App || Hojas de hielo")
-window.iconbitmap("C:\\Users\\hvcar\\OneDrive\\Documentos\\PRACTICAS\\SENASOFT\\ProyectoHojas\\bolsa-de-hielo.ico\\")
+root = tk.Tk()
+root.title("App || Hojas de hielo")
+root.iconbitmap("C:\\Users\\hvcar\\OneDrive\\Documentos\\PRACTICAS\\SENASOFT\\ProyectoHojas\\bolsa-de-hielo.ico\\")
 
-nombre_label = tk.Label(text="Nombre del cliente:")
+nombre_label = tk.Label(text="Nombre del cliente: ")
 nombre_label.grid(row=0, column=0)
+nombre_entry = tk.Entry()
+nombre_entry.grid(row=0, column=1)
+
+tipo_cliente_label = tk.Label(text="Tipo de cliente 1 2 3 4: ")
+tipo_cliente_label.grid(row=1, column=0)
+tipo_cliente_entry = tk.Entry()
+tipo_cliente_menu = tk.OptionMenu(root,tipo_cliente_entry ,1, 2, 3, 4)
+tipo_cliente_menu.grid(row=1, column=1)
+
+cantidad_label = tk.Label(text="Cantidad de hojas: ")
+cantidad_label.grid(row=2, column=0)
+cantidad_entry = tk.Entry()
+cantidad_entry.grid(row=2, column=1)
+
+precio_por_hoja_label = tk.Label(text="Precio por hoja: ")
+precio_por_hoja_label.grid(row=3, column=0)
 
 
 
+#Estilo
+root.config(bg="#B6FCFA")
+nombre_label.config(bg="#B6FCFA")
+tipo_cliente_label.config(bg="#B6FCFA")
+cantidad_label.config(bg="#B6FCFA")
+precio_por_hoja_label.config(bg="#B6FCFA")
 
-window.mainloop()
-
+root.mainloop()
+conexion.close()
