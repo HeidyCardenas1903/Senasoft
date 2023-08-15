@@ -1,4 +1,9 @@
 import tkinter as tk
+from tkinter import messagebox
+
+
+def info():
+    i= messagebox.showinfo('Informacion','Esta aplicacion fue creada por Heidy')
 
 def barra_menu(root):
     barra_menu = tk.Menu(root)
@@ -11,7 +16,7 @@ def barra_menu(root):
     menu_inicio.add_command(label='Eliminar Venta en DB')
     menu_inicio.add_command(label='Salir', command= root.destroy)
 
-    barra_menu.add_cascade(label = 'Información',)
+    barra_menu.add_cascade(label = 'Información', command= info)
     
 class Frame(tk.Frame):
     def __init__(self, root = None):
