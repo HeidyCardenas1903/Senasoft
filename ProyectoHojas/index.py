@@ -6,7 +6,7 @@ def main():
     root = tk.Tk()
     root.title('Hojas de hielo || Heidy')
     root.iconbitmap('C:\\Users\\hvcar\\OneDrive\\Documentos\\PRACTICAS\\SENASOFT\\ProyectoHojas\\iconoapp.ico')
-    root.resizable(0,0)
+    root.resizable(1,1)
 
     barra_menu(root)
 
