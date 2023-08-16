@@ -34,5 +34,3 @@ def borrar_tabla():
         i = messagebox.showinfo('Borrar registro','La tabla de la base de datos se borro con éxito')
     except:
         i = messagebox.showerror('Borrar registro','No hay tabla para borrar')
-
-class 

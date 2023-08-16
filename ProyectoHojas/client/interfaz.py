@@ -37,7 +37,7 @@ class Frame(tk.Frame):
         self.label_nombre.config(font= ('Arial', 12, 'bold'))
         self.label_nombre.grid(row=0,column=1, padx= 10, pady= 5)
 
-        self.label_tipo_cliente = tk.Label(self, text='Tipo de cliente (1 2 3 4 5): ')
+        self.label_tipo_cliente = tk.Label(self, text='Tipo de cliente (1 2 3 4): ')
         self.label_tipo_cliente.config(font= ('Arial', 12, 'bold'))
         self.label_tipo_cliente.grid(row=1,column=1, padx= 10, pady= 5)
 
