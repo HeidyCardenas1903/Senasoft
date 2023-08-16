@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
+from model.ventas_dao import crear_tabla, borrar_tabla
 
 def info():
     i= messagebox.showinfo('Informacion','Esta aplicacion fue creada por Heidy')
@@ -12,8 +13,8 @@ def barra_menu(root):
     menu_inicio=tk.Menu(barra_menu, tearoff=0)
     barra_menu.add_cascade(label = 'Inicio', menu = menu_inicio)
 
-    menu_inicio.add_command(label='Crear Venta en DB')
-    menu_inicio.add_command(label='Eliminar Venta en DB')
+    menu_inicio.add_command(label='Crear tabla en DB', command= crear_tabla)
+    menu_inicio.add_command(label='Eliminar tabla en DB', command= borrar_tabla)
     menu_inicio.add_command(label='Salir', command= root.destroy)
 
     barra_menu.add_cascade(label = 'Información', command= info)
