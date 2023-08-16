@@ -26,6 +26,7 @@ class Frame(tk.Frame):
 
         self.campos_ventas()
         self.desabilitar_campos()
+        self.calcular_total()
 
     def campos_ventas(self):
         # Labels de cada campo
@@ -56,32 +57,32 @@ class Frame(tk.Frame):
         #Entrys
         self.nombre=tk.StringVar()
         self.entry_nombre = tk.Entry(self, textvariable= self.nombre)
-        self.entry_nombre.config(width= 50,font= ('Arial', 12))
+        self.entry_nombre.config(width= 50,font= ('Arial', 12),bd=2)
         self.entry_nombre.grid(row=0, column= 1,padx= 20, pady= 5, columnspan=3)
 
         self.tipo_cliente = tk.StringVar()
         self.entry_tipo_cliente = tk.Entry(self, textvariable= self.tipo_cliente )
-        self.entry_tipo_cliente.config(width= 50,font= ('Arial', 12))
+        self.entry_tipo_cliente.config(width= 50,font= ('Arial', 12),bd=2)
         self.entry_tipo_cliente.grid(row=1, column= 1,padx= 20, pady= 5, columnspan=3)
 
         self.cantidad = tk.StringVar()
         self.entry_cantidad = tk.Entry(self,textvariable= self.cantidad)
-        self.entry_cantidad.config(width= 50,font= ('Arial', 12))
+        self.entry_cantidad.config(width= 50,font= ('Arial', 12),bd=2)
         self.entry_cantidad.grid(row=2, column= 1,padx= 20, pady= 5, columnspan=3)
 
         self.preciohoja = tk.StringVar()
         self.entry_precio_por_hoja = tk.Entry(self, textvariable= self.preciohoja)
-        self.entry_precio_por_hoja.config(width= 50,font= ('Arial', 12))
+        self.entry_precio_por_hoja.config(width= 50,font= ('Arial', 12),bd=2)
         self.entry_precio_por_hoja.grid(row=3, column= 1,padx= 20, pady= 5, columnspan=3)
 
         self.subtotal = tk.StringVar()
         self.entry_subtotal = tk.Entry(self, textvariable= self.subtotal)
-        self.entry_subtotal.config(width= 50,font= ('Arial', 12))
+        self.entry_subtotal.config(width= 50,font= ('Arial', 12),bd=5)
         self.entry_subtotal.grid(row=4, column= 1,padx= 20, pady= 5, columnspan=3)
 
         self.neto_por_pagar = tk.StringVar()
         self.entry_neto_por_pagar = tk.Entry(self, textvariable= self.neto_por_pagar)
-        self.entry_neto_por_pagar.config(width= 50,font= ('Arial', 12))
+        self.entry_neto_por_pagar.config(width= 50,font= ('Arial', 12),bd=5)
         self.entry_neto_por_pagar.grid(row=5, column= 1,padx= 20, pady= 5, columnspan=3)
         
         # Botones 
@@ -90,7 +91,7 @@ class Frame(tk.Frame):
                                       cursor= 'hand2', activebackground='#D2E9FF')
         self.boton_nueva_venta.grid(row=6,column=0,padx= 5, pady= 5)
 
-        self.boton_calcular = tk.Button(self, text='Calcular Sub y Tol')
+        self.boton_calcular = tk.Button(self, text='Calcular Sub y Tol', command= self.calcular_total)
         self.boton_calcular.config(width= 20, font= ('Arial', 12, 'bold'), fg= '#FFF', bg= '#32A8F3', 
                                       cursor= 'hand2', activebackground='#D2E9FF')
         self.boton_calcular.grid(row=6,column=1,padx= 5, pady= 5)
@@ -144,15 +145,23 @@ class Frame(tk.Frame):
         self.boton_calcular.config(state= 'disabled')
 
     def calcular_total(self):
-        descuentos = {1: 0.05, 2: 0.08, 3: 0.12, 4: 0.15}
+        try:
+            cantidad = int(self.cantidad.get())
+            precio_hoja = float(self.preciohoja.get())
+            subtotal = cantidad * precio_hoja
+            self.subtotal.set(f"${subtotal:.2f}")
+
+            tipo_cliente = int(self.tipo_cliente.get())
+            if tipo_cliente in [1, 2, 3, 4]:
+                descuento = {1: 0.05, 2: 0.08, 3: 0.12, 4: 0.15}[tipo_cliente]
+                total = subtotal * (1 - descuento)
+                self.neto_por_pagar.set(f"${total:.2f}")
+            else:
+                self.neto_por_pagar.set(f"${subtotal:.2f}")
+        except ValueError:
+            messagebox.showinfo("Sugerencia", "Por favor ingresar valores válidos para cantidad y precio por hoja (Enteros)")
+
+
         
-        if self.tipo_cliente in descuentos:
-            descuento = descuentos[self.tipo_cliente]
-        else:
-            descuento = 0.0
-        
-        subtotal = cantidad * precio_por_hoja
-        neto_por_pagar = subtotal * (1 - descuento)
-        
-        imprimir_recibo(nombre, subtotal, neto_por_pagar)
+
 
