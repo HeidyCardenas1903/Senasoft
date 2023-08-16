@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from model.ventas_dao import crear_tabla, borrar_tabla
+from model.ventas_dao import Venta
 
 def info():
     i= messagebox.showinfo('Informacion','Esta aplicacion fue creada por Heidy')
@@ -166,10 +167,20 @@ class Frame(tk.Frame):
 
         self.boton_guardar.config(state='normal')
         self.boton_cancelar.config(state='normal')
-   
-    def guardar_datos(self):
 
-        self.desabilitar_campos()
+    def guardar_datos(self):
+        nueva_venta = Venta(
+            self.nombre.get(),
+            self.tipo_cliente.get(),
+            self.cantidad.get(),
+            self.preciohoja.get(),
+            self.subtotal.get(),
+            self.neto_por_pagar.get(),
+        )
+
+        guardar=(nueva_venta)
+
+        # self.desabilitar_campos()
 
     def tabla_registros(self):
         self.tabla = ttk.Treeview(self, columns=('Nombre cliente', 'Tipo de cliente', 'Cantidad de hojas', 'Precio por hoja', 'Subtotal', 'Neto Pagado'))
