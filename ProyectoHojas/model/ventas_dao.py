@@ -71,3 +71,5 @@ def listar():
         conexion.cerrar()
     except:
         i = messagebox.showwarning('Conexión al registro', 'Error al conectar con la base de datos')
+        
+    return lista_clientes

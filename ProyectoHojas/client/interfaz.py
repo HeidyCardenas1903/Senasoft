@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from model.ventas_dao import crear_tabla, borrar_tabla
-from model.ventas_dao import Venta
+from model.ventas_dao import Venta, guardar,listar
 
 def info():
     i= messagebox.showinfo('Informacion','Esta aplicacion fue creada por Heidy')
@@ -178,13 +178,22 @@ class Frame(tk.Frame):
             self.neto_por_pagar.get(),
         )
 
-        guardar=(nueva_venta)
+        guardar(nueva_venta)
 
-        # self.desabilitar_campos()
+        self.tabla_registros()
+
+        self.desabilitar_campos()
 
     def tabla_registros(self):
+        self.lista_clientes = listar()
+        self.lista_clientes.reverse()
+
         self.tabla = ttk.Treeview(self, columns=('Nombre cliente', 'Tipo de cliente', 'Cantidad de hojas', 'Precio por hoja', 'Subtotal', 'Neto Pagado'))
         self.tabla.grid(row= 10, column=0 ,columnspan=6)
+
+        self.scroll = ttk.Scrollbar(self,orient='vertical', command= self.tabla.yview)
+        self.scroll.grid(row=4,column=7)
+        self.tabla.configure(yscrollcommand= self.scroll.set)
 
         self.tabla.heading('#0', text='ID')
         self.tabla.heading('#1', text='Nombre cliente')
@@ -193,6 +202,9 @@ class Frame(tk.Frame):
         self.tabla.heading('#4', text='Precio por hoja')
         self.tabla.heading('#5', text='Subtotal')
         self.tabla.heading('#6', text='Neto Pagado')
+
+        for v in self.lista_clientes:
+            self.tabla.insert('', 0, text=v[0], values=(v[1], v[2], v[3], v[4], v[5], v[6]))
 
         # Editar
         self.boton_editar = tk.Button(self, text='Editar')
