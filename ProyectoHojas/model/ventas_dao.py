@@ -71,5 +71,17 @@ def listar():
         conexion.cerrar()
     except:
         i = messagebox.showwarning('Conexión al registro', 'Error al conectar con la base de datos')
-        
+
     return lista_clientes
+
+def editar(venta,id):
+    conexion = ConexionDB()
+
+    sql = f"""UPDATE ventas SET nombre = '{venta.nombre}' WHERE id = '{id}'
+    """
+    try:
+        conexion.cursor.execute(sql)
+        conexion.cerrar()
+        i = messagebox.showinfo('Modificacion', 'Actualizacion existosa!')
+    except:
+        i = messagebox.showwarning('Modificacion', 'Ha ocurrido un error al momento de actualizar!')

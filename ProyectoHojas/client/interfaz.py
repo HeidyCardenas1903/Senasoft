@@ -213,10 +213,23 @@ class Frame(tk.Frame):
         self.boton_editar.grid(row=12,column=2,padx= 5, pady= 5)
 
         #Eliminar
-        self.boton_eliminar = tk.Button(self, text='Eliminar')
+        self.boton_eliminar = tk.Button(self, text='Eliminar', command=self.eliminar_registro)
         self.boton_eliminar.config(width= 20, font= ('Arial', 12, 'bold'), fg= '#FFF', bg= '#3370AC', 
-                                      cursor= 'hand2', activebackground='#D2E9FF')
-        self.boton_eliminar.grid(row=13,column=2,padx= 5, pady= 5)
+                                    cursor= 'hand2', activebackground='#D2E9FF')
+        self.boton_eliminar.grid(row=13, column=2, padx= 5, pady= 5)
+
+    def editar_datos(self):
+        try:
+            self.id = self.tabla.item(self.tabla.selection())['text']
+            self.nombre_cliente = self.tabla.item(
+                self.tabla.selection())['values'][0]
+            
+            self.habilitar_campos()
+
+            self.entry_nombre.insert(0,self.nombre)
+        except:
+            pass
+
         
 
 
