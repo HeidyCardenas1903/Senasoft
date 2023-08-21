@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from model.ventas_dao import crear_tabla, borrar_tabla
-from model.ventas_dao import Venta, guardar,listar
+from model.ventas_dao import Venta, guardar,listar,editar,eliminar
 
 def info():
     i= messagebox.showinfo('Informacion','Esta aplicacion fue creada por Heidy')
@@ -26,6 +26,8 @@ class Frame(tk.Frame):
         super().__init__(root,width=800, height=520)
         self.root = root
         self.pack()
+
+        self.id = None
 
         self.campos_ventas()
         self.desabilitar_campos()
@@ -169,18 +171,28 @@ class Frame(tk.Frame):
         self.boton_cancelar.config(state='normal')
 
     def guardar_datos(self):
-        nueva_venta = Venta(
-            self.nombre.get(),
-            self.tipo_cliente.get(),
-            self.cantidad.get(),
-            self.preciohoja.get(),
-            self.subtotal.get(),
-            self.neto_por_pagar.get(),
-        )
+        if self.id is None:
+            nueva_venta = Venta(
+                self.nombre.get(),
+                self.tipo_cliente.get(),
+                self.cantidad.get(),
+                self.preciohoja.get(),
+                self.subtotal.get(),
+                self.neto_por_pagar.get(),
+            )
+            guardar(nueva_venta)
+        else:
+            venta_editada = Venta(
+                self.nombre.get(),
+                self.tipo_cliente.get(),
+                self.cantidad.get(),
+                self.preciohoja.get(),
+                self.subtotal.get(),
+                self.neto_por_pagar.get(),
+            )
+            editar(self.id, venta_editada)
 
-        guardar(nueva_venta)
-
-        self.tabla_registros()
+        self.tabla_registros()  
 
         self.desabilitar_campos()
 
@@ -207,30 +219,56 @@ class Frame(tk.Frame):
             self.tabla.insert('', 0, text=v[0], values=(v[1], v[2], v[3], v[4], v[5], v[6]))
 
         # Editar
-        self.boton_editar = tk.Button(self, text='Editar')
+        self.boton_editar = tk.Button(self, text='Editar', command=self.editar_datos)
         self.boton_editar.config(width= 20, font= ('Arial', 12, 'bold'), fg= '#FFF', bg= '#0082FF', 
                                       cursor= 'hand2', activebackground='#D2E9FF')
         self.boton_editar.grid(row=12,column=2,padx= 5, pady= 5)
 
         #Eliminar
-        self.boton_eliminar = tk.Button(self, text='Eliminar', command=self.eliminar_registro)
+        self.boton_eliminar = tk.Button(self, text='Eliminar', command=self.eliminar_datos)
         self.boton_eliminar.config(width= 20, font= ('Arial', 12, 'bold'), fg= '#FFF', bg= '#3370AC', 
                                     cursor= 'hand2', activebackground='#D2E9FF')
         self.boton_eliminar.grid(row=13, column=2, padx= 5, pady= 5)
 
     def editar_datos(self):
         try:
-            self.id = self.tabla.item(self.tabla.selection())['text']
-            self.nombre_cliente = self.tabla.item(
-                self.tabla.selection())['values'][0]
-            
-            self.habilitar_campos()
+            item_seleccionado = self.tabla.selection()
+            if item_seleccionado:
+                self.id = self.tabla.item(item_seleccionado, 'text')
+                valores_fila = self.tabla.item(item_seleccionado, 'values')
 
-            self.entry_nombre.insert(0,self.nombre)
+                self.habilitar_campos()
+
+                self.entry_nombre.delete(0, tk.END)
+                self.entry_nombre.insert(0, valores_fila[0])
+
+                self.tipo_cliente.set(valores_fila[1])
+
+                self.entry_cantidad.delete(0, tk.END)
+                self.entry_cantidad.insert(0, valores_fila[2])
+
+                self.entry_precio_por_hoja.delete(0, tk.END)
+                self.entry_precio_por_hoja.insert(0, valores_fila[3])
+
+                self.entry_subtotal.delete(0, tk.END)
+                self.entry_subtotal.insert(0, valores_fila[4])
+
+                self.entry_neto_por_pagar.delete(0, tk.END)
+                self.entry_neto_por_pagar.insert(0, valores_fila[5])
+
         except:
-            pass
+            i = messagebox.showerror('Modificación de datos', 'No se ha seleccionado ningún registro')
 
-        
+    def eliminar_datos(self):
+        try:
+            item_seleccionado = self.tabla.selection()
+
+            if item_seleccionado:
+                self.id = self.tabla.item(item_seleccionado, 'text')  # Usa 'text' para obtener el ID
+                eliminar(self.id)
+                self.tabla.delete(item_seleccionado)
+        except:
+            i = messagebox.showerror('Eliminar un registro', 'No ha seleccionado ningún registro')
 
 
 

@@ -74,14 +74,28 @@ def listar():
 
     return lista_clientes
 
-def editar(venta,id):
+def editar(id, venta):
     conexion = ConexionDB()
 
-    sql = f"""UPDATE ventas SET nombre = '{venta.nombre}' WHERE id = '{id}'
-    """
+    sql = f"""UPDATE ventas SET nombre = '{venta.nombre}', tipo_cliente = '{venta.tipo_cliente}',
+            cantidad = '{venta.cantidad}', precio_por_hoja = '{venta.preciohoja}',
+            subtotal = '{venta.subtotal}', neto_por_pagar = '{venta.neto_por_pagar}'
+            WHERE id = '{id}'"""
+
     try:
         conexion.cursor.execute(sql)
         conexion.cerrar()
-        i = messagebox.showinfo('Modificacion', 'Actualizacion existosa!')
+        i = messagebox.showinfo('Modificación', 'Actualización exitosa!')
     except:
-        i = messagebox.showwarning('Modificacion', 'Ha ocurrido un error al momento de actualizar!')
+        i = messagebox.showwarning('Modificación', 'Ha ocurrido un error al momento de actualizar.')
+
+def eliminar(id):
+    conexion = ConexionDB()
+    sql = f'DELETE FROM ventas WHERE id = {id}'
+        
+    try:
+        conexion.cursor.execute(sql)
+        conexion.cerrar()
+        i = messagebox.showinfo('Eliminar datos', 'Registro eliminado exitosamente.')
+    except:
+        i = messagebox.showerror('Eliminar datos', 'No se pudo eliminar el registro.')
