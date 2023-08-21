@@ -1,4 +1,5 @@
 import tkinter as tk
+from client.login import VentanaInicioSesion
 from client.interfaz import *
 
 
@@ -9,7 +10,8 @@ def main():
     root.resizable()
 
     barra_menu(root)
-    
+    ventana_inicio_sesion = VentanaInicioSesion()
+    ventana_inicio_sesion.mainloop()
 
     app = Frame(root =root)
 
